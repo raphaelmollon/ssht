@@ -8,4 +8,8 @@ export class RoleService extends TypeOrmCrudService<Role> {
     constructor(@InjectRepository(Role) role) {
         super(role);
     }
+
+    async findRoleByName(name: string): Promise<Role> {
+        return this.repo.findOneBy({name});
+    }
 }

@@ -12,6 +12,9 @@ export class User {
 
     @Column()
     password: string;
+    
+    @Column()
+    salt: string;
 
     @Column()
     email: string;
@@ -19,7 +22,7 @@ export class User {
     @Column()
     active: boolean;
 
-    @Column()
+    @Column({nullable: true})
     lastConnection: Date;
 
     @Column()
@@ -28,10 +31,10 @@ export class User {
     @Column()
     cuser: string;
 
-    @Column()
+    @Column({nullable: true})
     mdate: Date;
 
-    @Column()
+    @Column({nullable: true})
     muser: string;
 
     @ApiProperty({ type: () => Role })
