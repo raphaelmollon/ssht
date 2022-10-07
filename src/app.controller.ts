@@ -1,5 +1,7 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Req, Res, Body, Headers } from '@nestjs/common';
+import { Request } from 'express';
 import { AppService } from './app.service';
+import { Public } from './decorators/public.decorator';
 import { Roles } from './decorators/roles.decorator';
 
 @Controller()
@@ -12,8 +14,9 @@ export class AppController {
     return this.appService.getHello();
   }
 
+  @Public()
   @Get('test')
-  getTest(): string {
-    return this.appService.getTest();
+  getTest(@Headers() h): string {
+    return this.appService.getTest(h);
   }
 }

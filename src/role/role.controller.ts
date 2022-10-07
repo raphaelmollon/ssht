@@ -1,6 +1,6 @@
 import { Controller, Get } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { Crud, CrudController, CrudRequest, GetManyDefaultResponse, Override, ParsedRequest } from '@nestjsx/crud';
+import { Crud, CrudController, CrudRequest, Override, ParsedRequest } from '@nestjsx/crud';
 import { Roles } from 'src/decorators/roles.decorator';
 import { Role } from './role.entity';
 import { RoleService } from './role.service';

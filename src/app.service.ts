@@ -6,7 +6,7 @@ export class AppService {
     return 'Hello World!';
   }
 
-  getTest(): string {
-    return "test";
+  getTest(h: any): string {
+    return "host: " + h.host;
   }
 }

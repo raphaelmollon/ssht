@@ -5,9 +5,17 @@ import { AppService } from './app.service';
 import { UserModule } from './user/user.module';
 import { RoleModule } from './role/role.module';
 import { AuthModule } from './auth/auth.module';
+import { ProductModule } from './product/product.module';
+import { EnvironmentModule } from './environment/environment.module';
+import { CommandModule } from './command/command.module';
+import { MailModule } from './mail/mail.module';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
     TypeOrmModule.forRoot({
       type: 'mysql', 
       host: 'localhost',
@@ -20,7 +28,11 @@ import { AuthModule } from './auth/auth.module';
     }),
     UserModule,
     RoleModule,
-    AuthModule
+    AuthModule,
+    ProductModule,
+    EnvironmentModule,
+    CommandModule,
+    MailModule
   ],
   controllers: [AppController],
   providers: [AppService],

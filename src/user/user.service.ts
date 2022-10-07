@@ -10,8 +10,8 @@ export class UserService extends TypeOrmCrudService<User> {
         super(repo);
     }
 
-    async findOneById(id: number): Promise<User> {
-        return this.repo.findOneBy({ id });
+    async findOneById(id: number, deep?: boolean): Promise<User> {
+        return this.repo.findOne({where: { id }, relations: {role: deep }});
     }
 
     async findOneByUsername(username: string, deep?:boolean): Promise<User> {
@@ -24,6 +24,10 @@ export class UserService extends TypeOrmCrudService<User> {
 
     async refreshLastConnection(id: number): Promise<any> {
         return this.repo.update(id, {lastConnection: new Date()});
+    }
+
+    async activate(id: number): Promise<any> {
+        return await this.repo.update(id, {active: true});
     }
 }
 

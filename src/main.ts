@@ -4,12 +4,17 @@ import * as session from 'express-session';
 import * as MariaDBStore from 'express-mysql-session';
 import { AppModule } from './app.module';
 import { AuthGuard } from './guards/auth.guard';
+import helmet from 'helmet';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
+  app.use(helmet());
+
+  // guard for all
   app.useGlobalGuards(new AuthGuard(new Reflector()));
 
+  // configure sessions
   app.use(session({
     secret: 'ssht-seriously-secret-hot-text',
     resave: false,
@@ -23,6 +28,7 @@ async function bootstrap() {
     }),
   }));
 
+  // configure swagger for documentation
   const options = new DocumentBuilder()
     .setTitle('SSHT : Savoye Software Hotline Tools')
     .setDescription('API with a bunch of useful tools for the SSCS team')
@@ -31,6 +37,25 @@ async function bootstrap() {
     .build();
   const document = SwaggerModule.createDocument(app, options);
   SwaggerModule.setup('swagger', app, document);
+
+  // configure the headers
+  // app.use(function(req, res, next) {
+  //   res.header("Access-Control-Allow-Origin", "http://localhost:5173");
+  //   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-type, Accept");
+  //   res.header("Access-Control-Request-Methods", "GET,HEAD,PUT,PATCH,POST,DELETE");
+  //   res.header("Access-Control-Allow-Credentials", true);
+  //   next();
+  // });
+
+  // configure CORS
+  app.enableCors({
+    "origin": true,
+    "methods": "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS",
+    //"preflightContinue": true,
+    "optionsSuccessStatus": 204,
+    "credentials": true,
+    "maxAge": 86400000
+  });
 
   await app.listen(3000);
 }
